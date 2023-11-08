@@ -1,12 +1,16 @@
-#Plain and simple version control to sync with local machine. pip list > xxx___yyy.txt
+### Plain and simple version control to sync with local machine. pip list > xxx___yyy.txt
 
-#Prod requirements
-python == 3.11.5
+##$ Prod requirements
+## Python
+#python == 3.11.5
+#Enforced thorugh VENV variavle PYTHON_VERSION = 3.11.5 on render.com side
+
+## Packages
 enum
 fastapi[standard] ==  0.104.1
 pydantic == 1.10.8
 
-#Local machine for reference
+## Local machine for reference
 # Package                       Version
 # ----------------------------- ------------
 # aiobotocore                   2.5.0

@@ -6,7 +6,6 @@
 #Enforced thorugh VENV variavle PYTHON_VERSION = 3.11.5 on render.com side
 
 ## Packages
-enum
 fastapi[standard] ==  0.104.1
 pydantic == 1.10.8
 

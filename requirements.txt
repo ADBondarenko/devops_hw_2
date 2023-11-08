@@ -7,7 +7,7 @@ fastapi[standard] ==  0.104.1
 pydantic == 1.10.8
 
 #Local machine for reference
-Package                       Version
+# Package                       Version
 # ----------------------------- ------------
 # aiobotocore                   2.5.0
 # aiofiles                      22.1.0

@@ -67,11 +67,11 @@ async def post() -> Timestamp:
         summary = "Get Dogs",
         operation_id =  "get_dogs_dog_get", 
         response_model = Dog)
-async def get_dog(dog_type : DogType | None = None) -> list[Dog]:
+async def get_dog(kind : DogType | None = None) -> list[Dog]:
     
     response = []
     
-    if dog_type == None:
+    if kind == None:
         response = dogs_db
         
     else:
@@ -79,7 +79,7 @@ async def get_dog(dog_type : DogType | None = None) -> list[Dog]:
             
             response_iter = {}
         
-            if dog.kind == dog_type:
+            if dog.kind == kind:
             
                 
                 response.append(dog)

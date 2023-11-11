@@ -44,7 +44,7 @@ description="Create an item with all the information, name, description, price, 
 @app.get('/',
          summary = "Root",
          operation_id =  "root__get", 
-         response_schema = {})
+         response_model = {})
 async def root():
     return "Service is operational."
     ...
@@ -52,7 +52,7 @@ async def root():
 @app.post('/post',
          summary = "Get Post",
          operation_id =  "get_post_post_post", 
-         response_schema = Timestamp)
+         response_model = Timestamp)
 async def post():
     new_id = post_db[-1:].id + 1
     timestamp=time.time()

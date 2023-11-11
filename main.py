@@ -1,6 +1,7 @@
 from enum import Enum
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+import time
 
 
 app = FastAPI()
@@ -37,16 +38,35 @@ post_db = [
     Timestamp(id=0, timestamp=12),
     Timestamp(id=1, timestamp=10)
 ]
+summary="Create an item",
+description="Create an item with all the information, name, description, price, tax and a set of unique tags"
 
-
-@app.get('/')
+@app.get('/',
+         summary = "Root",
+         operation_id =  "root__get", 
+         response_schema = {})
 async def root():
     return "Service is operational."
     ...
+    
+@app.post('/post',
+         summary = "Get Post",
+         operation_id =  "get_post_post_post", 
+         response_schema = Timestamp)
+async def post():
+    new_id = post_db[-1:].id + 1
+    timestamp=time.time()
+    
+    response = {"id" : new_id, "timestamp" : timestamp}
+    
+    return  response
+    ...
 
-# ваш код здесь
 ...
-@app.get('/dog/')
+@app.get('/dog/',
+        summary = "Get Dogs",
+        operation_id =  "get_dogs_dog_get", 
+        response_model = Dog)
 async def get_dog(dog_type : DogType):
     
     response = []
@@ -67,7 +87,10 @@ async def get_dog(dog_type : DogType):
     return response
     
     
-@app.post('/dog/')
+@app.post('/dog/',
+        summary = "Create Dog",
+        operation_id =  "create_dog_dog_post", 
+        response_model = Dog)
 async def post_dog(name : str, pk: int, kind : DogType):
     
     new_dog = Dog()
@@ -89,7 +112,10 @@ async def post_dog(name : str, pk: int, kind : DogType):
         
         return response
     
-@app.get('/dog/{pk}')
+@app.get('/dog/{pk}',
+        summary = "Get Dog By Pk",
+        operation_id =  "get_dog_by_pk_dog__pk__get", 
+        response_model = Dog)
 async def get_dog_by_pk(pk : int):
     
     if pk not in dogs_db.keys():
@@ -110,7 +136,10 @@ async def get_dog_by_pk(pk : int):
     
     
     
-@app.patch('/dog/{pk}')
+@app.patch('/dog/{pk}',
+          summary = "Update Dog",
+          operation_id =  "update_dog_dog__pk__patch", 
+          response_model = Dog)
 async def update_dog_by_pk(pk : int, name : str, kind = DogType):
     
     if pk not in dogs_db.keys():

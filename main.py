@@ -67,7 +67,7 @@ async def post():
         summary = "Get Dogs",
         operation_id =  "get_dogs_dog_get", 
         response_model = Dog)
-async def get_dog(dog_type : DogType):
+async def get_dog(dog_type : DogType | None = None):
     
     response = []
     

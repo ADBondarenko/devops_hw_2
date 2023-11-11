@@ -55,11 +55,12 @@ async def root():
          response_model = Timestamp)
 async def post():
     new_id = post_db[-1:].id + 1
-    timestamp=time.time()
+    timestamp = time.time()
     
-    response = {"id" : new_id, "timestamp" : timestamp}
-    
-    return  response
+    # response = {"id" : new_id, "timestamp" : timestamp}
+
+    response = Timestamp(id = new_id, timestamp = timestamp)
+    return response
     ...
 
 ...
@@ -71,19 +72,19 @@ async def get_dog(dog_type : DogType | None = None):
     
     response = []
     
-    for dog in list(dogs_db.values()):
+    if dog_type == None:
+        response = dogs_db
         
-        response_iter = {}
+    else:
+        for dog in list(dogs_db.values()):
+            
+            response_iter = {}
         
-        if dog.kind == dog_type:
+            if dog.kind == dog_type:
             
-            response_iter["name"] = dog.name
-            response_iter["pk"] = dog.pk
-            response_iter["kind"] = dog.kind
-            
-            response.append(response_iter)
-            
-            
+                
+                response.append(dog)
+             
     return response
     
     
@@ -105,11 +106,12 @@ async def post_dog(name : str, pk: int, kind : DogType):
         
     else: 
         dogs_db[pk] = new_dog
-        reponse = {
-            "name" : name,
-            "pk" : pk,
-            "kind" : kind                  
-        }
+        # reponse = {
+        #     "name" : name,
+        #     "pk" : pk,
+        #     "kind" : kind                  
+        # }
+        response = new_dog
         
         return response
     
@@ -126,11 +128,12 @@ async def get_dog_by_pk(pk : int):
     else:
         dog_by_pk = dogs_db[dog_pk]
     
-        reponse = {
-            "name" : dog_by_pk.name,
-            "pk" : dog_by_pk.pk,
-            "kind" : dog_by_pk.kind                  
-        }
+        # reponse = {
+        #     "name" : dog_by_pk.name,
+        #     "pk" : dog_by_pk.pk,
+        #     "kind" : dog_by_pk.kind                  
+        # }
+        response = dog_by_pk
         
         return response
    
@@ -153,6 +156,10 @@ async def update_dog_by_pk(pk : int, name : str, kind = DogType):
         dogs_db[pk]["kind"] = kind
             
         updated_dog = dogs_db[pk]
-
+        # response = {
+        #     "name" = updated_dog.name,
+        #     "pk" = updated_dog.pk,
+        #     "kind" = updated_dog.kind
+        # }
         response = updated_dog
         return response

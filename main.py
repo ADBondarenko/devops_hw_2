@@ -153,9 +153,6 @@ async def update_dog_by_pk(pk : int, name : str, kind = DogType):
         dogs_db[pk]["kind"] = kind
             
         updated_dog = dogs_db[pk]
-        reponse = {
-        "name" : updated_dog.name,
-        "pk" : updated_dog.pk,
-        "kind" : updated_dog.kind                  
-    }
+
+        response = updated_dog
         return response

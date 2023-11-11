@@ -93,11 +93,12 @@ async def get_dog(dog_type : DogType | None = None):
         response_model = Dog)
 async def post_dog(name : str, pk: int, kind : DogType):
     
-    new_dog = Dog()
-    new_dog.name = name
-    new_dog.pk = pk
-    new_dog.kind = kind
     
+    new_dog_name = name
+    new_dog_pk = pk
+    new_dog_kind = DogType(kind)
+
+    new_dog = Dog(name = new_dog_name, pk = new_dog_pk, kind = new_dog_kind)
     if new_dog.pk in dogs_db.keys():
         
         raise HTTPException(status_code = 422, detail = "Dog with a given 'pk' already exists")

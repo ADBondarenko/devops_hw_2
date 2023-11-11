@@ -45,16 +45,15 @@ description="Create an item with all the information, name, description, price, 
          summary = "Root",
          operation_id =  "root__get", 
          response_model = {})
-async def root():
-    return "Service is operational."
-    ...
+async def root() -> dict:
+    return {"Status" : "Service is operational."}
     
 @app.post('/post',
          summary = "Get Post",
          operation_id =  "get_post_post_post", 
          response_model = Timestamp)
-async def post():
-    new_id = post_db[-1:].id + 1
+async def post() -> Timestamp:
+    new_id = post_db[-1].id + 1
     timestamp = time.time()
     
     # response = {"id" : new_id, "timestamp" : timestamp}
@@ -68,7 +67,7 @@ async def post():
         summary = "Get Dogs",
         operation_id =  "get_dogs_dog_get", 
         response_model = Dog)
-async def get_dog(dog_type : DogType | None = None):
+async def get_dog(dog_type : DogType | None = None) -> list[Dog]:
     
     response = []
     
@@ -92,7 +91,7 @@ async def get_dog(dog_type : DogType | None = None):
         summary = "Create Dog",
         operation_id =  "create_dog_dog_post", 
         response_model = Dog)
-async def post_dog(name : str, pk: int, kind : DogType):
+async def post_dog(name : str, pk: int, kind : DogType) -> Dog:
     
     
     new_dog_name = name
@@ -119,7 +118,7 @@ async def post_dog(name : str, pk: int, kind : DogType):
         summary = "Get Dog By Pk",
         operation_id =  "get_dog_by_pk_dog__pk__get", 
         response_model = Dog)
-async def get_dog_by_pk(pk : int):
+async def get_dog_by_pk(pk : int) -> Dog:
     
     if pk not in dogs_db.keys():
         
@@ -144,7 +143,7 @@ async def get_dog_by_pk(pk : int):
           summary = "Update Dog",
           operation_id =  "update_dog_dog__pk__patch", 
           response_model = Dog)
-async def update_dog_by_pk(pk : int, name : str, kind = DogType):
+async def update_dog_by_pk(pk : int, name : str, kind = DogType) -> Dog:
     
     if pk not in dogs_db.keys():
         

@@ -63,7 +63,7 @@ async def post():
     ...
 
 ...
-@app.get('/dog/',
+@app.get('/dog',
         summary = "Get Dogs",
         operation_id =  "get_dogs_dog_get", 
         response_model = Dog)
@@ -87,7 +87,7 @@ async def get_dog(dog_type : DogType):
     return response
     
     
-@app.post('/dog/',
+@app.post('/dog',
         summary = "Create Dog",
         operation_id =  "create_dog_dog_post", 
         response_model = Dog)

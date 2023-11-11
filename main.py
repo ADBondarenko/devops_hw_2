@@ -72,16 +72,13 @@ async def get_dog(kind : DogType | None = None) -> list[Dog]:
     response = []
     
     if kind == None:
-        response = dogs_db
+        response.append(dogs_db)
         
     else:
         for dog in list(dogs_db.values()):
-            
-            response_iter = {}
         
             if dog.kind == kind:
-            
-                
+                            
                 response.append(dog)
              
     return response
@@ -151,8 +148,8 @@ async def update_dog_by_pk(pk : int, name : str, kind = DogType) -> Dog:
         
     else: 
         
-        dogs_db[pk]["name"] = name
-        dogs_db[pk]["kind"] = kind
+        dogs_db[pk].name = name
+        dogs_db[pk].kind = kind
             
         updated_dog = dogs_db[pk]
         # response = {

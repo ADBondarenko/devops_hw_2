@@ -77,13 +77,14 @@ async def get_dog(kind : DogType | None = None) -> list[Dog]:
     response = []
     
     if kind == None:
-        response.append(dogs_db)
-        
+        for key in list(dogs_db.keys()):
+            response.append(dogs_db[key])
+
     else:
         for dog in list(dogs_db.values()):
         
-            if dog.kind == kind:
-                            
+            if dog.kind == DogType(kind):
+                           
                 response.append(dog)
              
     return response

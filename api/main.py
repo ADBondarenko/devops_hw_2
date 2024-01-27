@@ -2,7 +2,8 @@ from enum import Enum
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import time
-
+from typing import List
+import os
 
 app = FastAPI()
 
@@ -11,18 +12,22 @@ class DogType(str, Enum):
     terrier = "terrier"
     bulldog = "bulldog"
     dalmatian = "dalmatian"
+    class Config:
+        arbitrary_types_allowed = True
 
 
 class Dog(BaseModel):
     name: str
     pk: int
     kind: DogType
-
+    class Config:
+        arbitrary_types_allowed = True    
 
 class Timestamp(BaseModel):
     id: int
     timestamp: int
-
+    class Config:
+        arbitrary_types_allowed = True
 
 dogs_db = {
     0: Dog(name='Bob', pk=0, kind='terrier'),
@@ -57,7 +62,7 @@ async def post() -> Timestamp:
     timestamp = time.time()
     
     # response = {"id" : new_id, "timestamp" : timestamp}
-
+    
     response = Timestamp(id = new_id, timestamp = timestamp)
     return response
     ...
@@ -66,19 +71,20 @@ async def post() -> Timestamp:
 @app.get('/dog',
         summary = "Get Dogs",
         operation_id =  "get_dogs_dog_get", 
-        response_model = Dog)
-async def get_dog(kind : DogType | None = None) -> list[Dog]:
+        response_model = List[Dog])
+async def get_dog(kind : DogType | None = None) -> List[Dog]:
     
     response = []
     
     if kind == None:
-        response.append(dogs_db)
-        
+        for key in dogs_db.keys():
+            response.append(dogs_db[key])
+
     else:
         for dog in list(dogs_db.values()):
         
-            if dog.kind == kind:
-                            
+            if dog.kind == DogType(kind):
+                           
                 response.append(dog)
              
     return response
@@ -93,7 +99,7 @@ async def post_dog(name : str, pk: int, kind : DogType) -> Dog:
     
     new_dog_name = name
     new_dog_pk = pk
-    new_dog_kind = DogType(kind)
+    new_dog_kind = kind
 
     new_dog = Dog(name = new_dog_name, pk = new_dog_pk, kind = new_dog_kind)
     if new_dog.pk in dogs_db.keys():
@@ -122,7 +128,7 @@ async def get_dog_by_pk(pk : int) -> Dog:
         raise HTTPException(status_code = 404, detail = "Dog with a given 'pk' is not found")
     
     else:
-        dog_by_pk = dogs_db[dog_pk]
+        dog_by_pk = dogs_db[pk]
     
         # reponse = {
         #     "name" : dog_by_pk.name,

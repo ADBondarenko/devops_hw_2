@@ -2,7 +2,8 @@ from enum import Enum
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import time
-
+import psycopg2
+import os
 
 app = FastAPI()
 
@@ -11,17 +12,26 @@ class DogType(str, Enum):
     terrier = "terrier"
     bulldog = "bulldog"
     dalmatian = "dalmatian"
+    
+    class Config:
+        orm_mode = True
 
 
 class Dog(BaseModel):
     name: str
     pk: int
     kind: DogType
+    
+    class Config:
+        orm_mode = True
 
 
 class Timestamp(BaseModel):
     id: int
     timestamp: int
+    
+    class Config:
+        orm_mode = True
 
 
 dogs_db = {
@@ -57,7 +67,7 @@ async def post() -> Timestamp:
     timestamp = time.time()
     
     # response = {"id" : new_id, "timestamp" : timestamp}
-
+    
     response = Timestamp(id = new_id, timestamp = timestamp)
     return response
     ...

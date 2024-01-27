@@ -12,27 +12,22 @@ class DogType(str, Enum):
     terrier = "terrier"
     bulldog = "bulldog"
     dalmatian = "dalmatian"
-    
     class Config:
-        orm_mode = True
+        arbitrary_types_allowed = True
 
 
 class Dog(BaseModel):
     name: str
     pk: int
     kind: DogType
-    
     class Config:
-        orm_mode = True
-
+        arbitrary_types_allowed = True    
 
 class Timestamp(BaseModel):
     id: int
     timestamp: int
-    
     class Config:
-        orm_mode = True
-
+        arbitrary_types_allowed = True
 
 dogs_db = {
     0: Dog(name='Bob', pk=0, kind='terrier'),
@@ -103,7 +98,7 @@ async def post_dog(name : str, pk: int, kind : DogType) -> Dog:
     
     new_dog_name = name
     new_dog_pk = pk
-    new_dog_kind = DogType(kind)
+    new_dog_kind = kind
 
     new_dog = Dog(name = new_dog_name, pk = new_dog_pk, kind = new_dog_kind)
     if new_dog.pk in dogs_db.keys():

@@ -2,7 +2,6 @@ from enum import Enum
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import time
-import psycopg2
 import os
 
 app = FastAPI()
@@ -128,7 +127,7 @@ async def get_dog_by_pk(pk : int) -> Dog:
         raise HTTPException(status_code = 404, detail = "Dog with a given 'pk' is not found")
     
     else:
-        dog_by_pk = dogs_db[dog_pk]
+        dog_by_pk = dogs_db[pk]
     
         # reponse = {
         #     "name" : dog_by_pk.name,
